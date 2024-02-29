@@ -1,6 +1,12 @@
 #!/bin/bash
 cd openwrt
 
+
+sed -i 's/OpenWrt/Phicomm-N1/g' package/base-files/files/bin/config_generate
+sed -i "s/'UTC'/'CST-8'\n   set system.@system[-1].zonename='Asia\/Shanghai'/g" package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/10.10.10.1/g' package/base-files/files/bin/config_generate
+echo "iptables -t nat -I POSTROUTING -o pppoe-WAN -j MASQUERADE" >> package/network/config/firewall/files/firewall.user
+
 # Add luci-app-adguardhome
 git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package-temp/luci-app-adguardhome
 mv -f package-temp/luci-app-adguardhome package/lean/
